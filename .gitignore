@@ -478,6 +478,9 @@ umbraco-package-schema.json
 /umbraco/Data/*.sqlite.db-shm
 /umbraco/Data/*.sqlite.db-wal
 
+# ASP.NET Core DataProtection key ring (secret, per-environment)
+/umbraco/Data/DataProtectionKeys/
+
 # Log files
 /umbraco/Logs/
 

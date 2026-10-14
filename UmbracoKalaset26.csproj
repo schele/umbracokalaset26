@@ -7,11 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Esatto.Umbraco.Backoffice.ContentTreeDragAndDrop" />
+    <PackageReference Include="Esatto.Umbraco.Backoffice.CustomEditors" />
+    <PackageReference Include="Esatto.Umbraco.Backoffice.DictionaryFilterValues" />
+    <PackageReference Include="Esatto.Umbraco.Backoffice.MediaTreeDragAndDrop" />
+    <PackageReference Include="Esatto.Umbraco.Backoffice.Redirects" />
+    <PackageReference Include="Esatto.Umbraco.Backoffice.SharedPreviewLink" />
     <PackageReference Include="Umbraco.AI" />
     <PackageReference Include="Umbraco.AI.Anthropic" />
     <PackageReference Include="Umbraco.Cms" />
     <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice" />
     <PackageReference Include="uSync" />
+  </ItemGroup>
+
+  <ItemGroup Label="Security overrides">
+    <!-- System.Security.Cryptography.Pkcs 10.0.0 (transitive via Umbraco): DoS, CVE-2026-84008
+         (GHSA-846f-f764-76mx), fixed 10.0.13. Remove once Umbraco depends on a patched version. -->
+    <PackageReference Include="System.Security.Cryptography.Pkcs" />
   </ItemGroup>
 
   <PropertyGroup>
