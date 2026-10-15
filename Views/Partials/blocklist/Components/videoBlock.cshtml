@@ -1,0 +1,46 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<VideoBlock, VideoBlockSettings>>
+
+@{
+	var video = Model.Content;
+	var videoId = YouTube.GetVideoId(video.VideoUrl);
+	if (videoId is null) { return; }
+
+	var hasCaption = !string.IsNullOrWhiteSpace(video.Caption);
+	var label = hasCaption ? $"Play video: {video.Caption}" : "Play video";
+	// YouTube's 1280×720 thumbnail; hqdefault (480×360) is far too small for a full-width block, but
+	// maxresdefault doesn't exist for every video, so the <img> falls back to it on a 404.
+	var youTubeThumbnail = $"https://i.ytimg.com/vi/{videoId}/maxresdefault.jpg";
+	var youTubeFallback = $"https://i.ytimg.com/vi/{videoId}/hqdefault.jpg";
+	var thumbnailUrl = video.Thumbnail?.GetCropUrl(width: 1920) ?? youTubeThumbnail;
+
+	// Settings: full width runs edge to edge; otherwise the video is centred in a .container, and the
+	// background (if any) fills the band around it. Blocks saved before settings existed have none.
+	var fullWidth = Model.Settings?.FullWidth == true;
+	var background = fullWidth ? null : HexColor.Normalize(Model.Settings?.Background?.Color);
+	var classes = "video-block"
+		+ (fullWidth ? " video-block--full" : null)
+		+ (background is null ? null : " video-block--band")
+		+ (background is not null && HexColor.IsDark(background) ? " video-block--dark" : null);
+}
+
+@* Click-to-load: only the thumbnail renders here. wwwroot/js/video.js swaps in the
+   youtube-nocookie.com player when the visitor presses play, so no YouTube requests or
+   cookies happen before that. *@
+<section class="@classes" style="@(background is null ? null : $"background-color: {background}")">
+	<figure class="video-block__figure @(fullWidth ? null : "container")">
+		<div class="video-block__frame">
+			<button type="button" class="video-block__poster" aria-label="@label"
+					data-youtube-id="@videoId" data-youtube-start="@(video.StartAt > 0 ? video.StartAt : null)">
+				<img src="@thumbnailUrl" alt="" loading="lazy" style="@video.Thumbnail?.GetFocalObjectPosition()"
+					 onerror="@(video.Thumbnail is null ? $"this.onerror=null;this.src='{youTubeFallback}'" : null)" />
+				<span class="video-block__play" aria-hidden="true"></span>
+			</button>
+		</div>
+		@if (hasCaption)
+		{
+			<figcaption class="@(fullWidth ? "container" : null)">@video.Caption</figcaption>
+		}
+	</figure>
+</section>

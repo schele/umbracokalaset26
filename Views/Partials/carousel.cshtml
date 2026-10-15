@@ -1,5 +1,5 @@
 ﻿@using Umbraco.Cms.Core.Models
-@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using UmbracoKalaset26.Models
 @using UmbracoKalaset26.Models.ViewModels
 @model CarouselViewModel
 
@@ -28,7 +28,7 @@
 			var slide = slides[i];
 			<div class="carousel-item @(i == 0 ? "active" : null)">
 				<img src="@slide.Image.GetCropUrl(width: 1920)"
-					 style="@FocalObjectPosition(slide.Image)"
+					 style="@slide.Image.GetFocalObjectPosition()"
 					 alt="@(slide.Caption ?? slide.Image.Name)" loading="@(i == 0 ? "eager" : "lazy")" />
 				@if (!string.IsNullOrWhiteSpace(slide.Caption))
 				{
@@ -54,19 +54,3 @@
 		</button>
 	}
 </div>
-
-@functions {
-	// The image is only resized on the server (never cropped), so the browser does the one and only
-	// crop: object-fit: cover trims whatever doesn't fit the carousel box, at any screen size.
-	// object-position X% Y% maps the image's X%/Y% point onto the box's X%/Y% point, so the focal
-	// point is always inside the visible area. Without a focal point the crop stays centred.
-	// Invariant formatting: on a Swedish page "62,5%" would be invalid CSS.
-	private static string? FocalObjectPosition(MediaWithCrops image)
-	{
-		var focalPoint = image.LocalCrops?.FocalPoint
-			?? image.Content.Value<ImageCropperValue>("umbracoFile")?.FocalPoint;
-		return focalPoint is null
-			? null
-			: FormattableString.Invariant($"object-position: {focalPoint.Left * 100:0.##}% {focalPoint.Top * 100:0.##}%");
-	}
-}

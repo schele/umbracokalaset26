@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Esatto.Umbraco.Backoffice.BlockPreview" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.CustomEditors" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.DictionaryFilterValues" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.Redirects" />
@@ -76,9 +77,5 @@
     <RazorCompileOnBuild>false</RazorCompileOnBuild>
     <RazorCompileOnPublish>false</RazorCompileOnPublish>
   </PropertyGroup>
-
-  <ItemGroup Label="Local BlockPreview (temporary, do not commit)">
-    <ProjectReference Include="..\Esatto.Packages\Esatto.Umbraco.Backoffice.BlockPreview\Esatto.Umbraco.Backoffice.BlockPreview.csproj" />
-  </ItemGroup>
 
 </Project>
