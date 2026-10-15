@@ -1,0 +1,72 @@
+﻿@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.PropertyEditors.ValueConverters
+@using UmbracoKalaset26.Models.ViewModels
+@model CarouselViewModel
+
+@{
+	var slides = Model.Slides;
+	var hasMultiple = slides.Count > 1;
+}
+
+@* Based on https://getbootstrap.com/docs/5.3/examples/carousel/ *@
+<div id="@Model.Id" class="carousel slide start-carousel" data-bs-ride="carousel">
+	@if (hasMultiple)
+	{
+		<div class="carousel-indicators">
+			@for (var i = 0; i < slides.Count; i++)
+			{
+				<button type="button" data-bs-target="#@Model.Id" data-bs-slide-to="@i"
+						class="@(i == 0 ? "active" : null)" aria-current="@(i == 0 ? "true" : null)"
+						aria-label="Slide @(i + 1)"></button>
+			}
+		</div>
+	}
+
+	<div class="carousel-inner">
+		@for (var i = 0; i < slides.Count; i++)
+		{
+			var slide = slides[i];
+			<div class="carousel-item @(i == 0 ? "active" : null)">
+				<img src="@slide.Image.GetCropUrl(width: 1920)"
+					 style="@FocalObjectPosition(slide.Image)"
+					 alt="@(slide.Caption ?? slide.Image.Name)" loading="@(i == 0 ? "eager" : "lazy")" />
+				@if (!string.IsNullOrWhiteSpace(slide.Caption))
+				{
+					<div class="container">
+						<div class="carousel-caption text-start">
+							<h1>@slide.Caption</h1>
+						</div>
+					</div>
+				}
+			</div>
+		}
+	</div>
+
+	@if (hasMultiple)
+	{
+		<button class="carousel-control-prev" type="button" data-bs-target="#@Model.Id" data-bs-slide="prev">
+			<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" type="button" data-bs-target="#@Model.Id" data-bs-slide="next">
+			<span class="carousel-control-next-icon" aria-hidden="true"></span>
+			<span class="visually-hidden">Next</span>
+		</button>
+	}
+</div>
+
+@functions {
+	// The image is only resized on the server (never cropped), so the browser does the one and only
+	// crop: object-fit: cover trims whatever doesn't fit the carousel box, at any screen size.
+	// object-position X% Y% maps the image's X%/Y% point onto the box's X%/Y% point, so the focal
+	// point is always inside the visible area. Without a focal point the crop stays centred.
+	// Invariant formatting: on a Swedish page "62,5%" would be invalid CSS.
+	private static string? FocalObjectPosition(MediaWithCrops image)
+	{
+		var focalPoint = image.LocalCrops?.FocalPoint
+			?? image.Content.Value<ImageCropperValue>("umbracoFile")?.FocalPoint;
+		return focalPoint is null
+			? null
+			: FormattableString.Invariant($"object-position: {focalPoint.Left * 100:0.##}% {focalPoint.Top * 100:0.##}%");
+	}
+}

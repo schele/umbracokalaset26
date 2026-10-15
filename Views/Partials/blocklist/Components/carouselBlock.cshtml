@@ -1,0 +1,14 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models.ViewModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<CarouselBlock>>
+
+@{
+	var slides = Model.Content.Images?
+		.Where(image => image != null)
+		.Select(image => new CarouselSlide(image))
+		.ToList() ?? [];
+
+	if (slides.Count == 0) { return; }
+}
+
+@await Html.PartialAsync("~/Views/Partials/carousel.cshtml",new CarouselViewModel { Id = $"carousel-{Model.ContentKey:N}", Slides = slides })

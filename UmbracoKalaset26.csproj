@@ -77,4 +77,8 @@
     <RazorCompileOnPublish>false</RazorCompileOnPublish>
   </PropertyGroup>
 
+  <ItemGroup Label="Local BlockPreview (temporary, do not commit)">
+    <ProjectReference Include="..\Esatto.Packages\Esatto.Umbraco.Backoffice.BlockPreview\Esatto.Umbraco.Backoffice.BlockPreview.csproj" />
+  </ItemGroup>
+
 </Project>
