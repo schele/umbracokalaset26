@@ -1,0 +1,13 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<ScriptBlock>>
+
+@{
+	var code = Model.Content.Code;
+	if (string.IsNullOrWhiteSpace(code)) { return; }
+}
+
+@* Output as it is: editors who can add this block can run script on the site. In the backoffice the
+   block shows a code card instead (wwwroot/App_Plugins/ScriptBlock), so the snippet never runs there. *@
+<div class="script-block @(Model.Content.FullWidth ? "container-fluid" : "container")">
+	@Html.Raw(code)
+</div>

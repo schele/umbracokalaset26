@@ -1,6 +1,6 @@
 @using Umbraco.Cms.Core.Models.Blocks
 @using UmbracoKalaset26.Models
-@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<VideoBlock, VideoBlockSettings>>
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<VideoBlock>>
 
 @{
 	var video = Model.Content;
@@ -15,10 +15,10 @@
 	var youTubeFallback = $"https://i.ytimg.com/vi/{videoId}/hqdefault.jpg";
 	var thumbnailUrl = video.Thumbnail?.GetCropUrl(width: 1920) ?? youTubeThumbnail;
 
-	// Settings: full width runs edge to edge; otherwise the video is centred in a .container, and the
-	// background (if any) fills the band around it. Blocks saved before settings existed have none.
-	var fullWidth = Model.Settings?.FullWidth == true;
-	var background = fullWidth ? null : HexColor.Normalize(Model.Settings?.Background?.Color);
+	// Full width runs edge to edge; otherwise the video is centred in a .container, and the
+	// background (if any) fills the band around it.
+	var fullWidth = video.FullWidth;
+	var background = fullWidth ? null : HexColor.Normalize(video.Background?.Color);
 	var classes = "video-block"
 		+ (fullWidth ? " video-block--full" : null)
 		+ (background is null ? null : " video-block--band")

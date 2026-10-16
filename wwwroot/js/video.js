@@ -7,9 +7,18 @@ document.addEventListener('click', (event) => {
 	const params = new URLSearchParams({ autoplay: '1', rel: '0' });
 	if (poster.dataset.youtubeStart) params.set('start', poster.dataset.youtubeStart);
 
+	const src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(poster.dataset.youtubeId)}?${params}`;
+
+	// In the backoffice block preview (Esatto.Umbraco.Backoffice.BlockPreview) YouTube can't run
+	// inside the sandboxed frame; the backoffice shows the player over the poster instead.
+	if (window.EsattoBlockPreview) {
+		window.EsattoBlockPreview.playEmbed(poster, src);
+		return;
+	}
+
 	const player = document.createElement('iframe');
 	player.className = 'video-block__player';
-	player.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(poster.dataset.youtubeId)}?${params}`;
+	player.src = src;
 	player.title = poster.getAttribute('aria-label') ?? 'YouTube video';
 	player.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
 	player.allowFullscreen = true;

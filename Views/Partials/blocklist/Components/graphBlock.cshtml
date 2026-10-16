@@ -1,0 +1,29 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models.Charts
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<GraphBlock>>
+@inject AICostChartService Charts
+
+@{
+	var block = Model.Content;
+	var settings = GraphSettings.Parse(block.Chart, block.Measure, block.SplitBy, block.Period, block.Currency);
+	// Cached for 15 minutes per period (Models/Charts/AICostChartService.cs).
+	var chart = await Charts.GetChartAsync(settings, Context.RequestAborted);
+	var title = string.IsNullOrWhiteSpace(block.Title) ? null : block.Title;
+}
+
+@* Drawn as SVG on the server (Models/Charts/SvgChart.cs): the page and the backoffice preview look the
+   same, and the values are in a "Show data" table under the chart. *@
+<figure class="graph-block @(block.FullWidth ? "graph-block--full container-fluid" : "container")">
+	@if (title is not null)
+	{
+		<figcaption class="graph-block__title">@title</figcaption>
+	}
+	@if (chart is null)
+	{
+		<p class="graph-block__note">The AI usage data is unavailable right now.</p>
+	}
+	else
+	{
+		@Html.Raw(SvgChart.Render(chart))
+	}
+</figure>

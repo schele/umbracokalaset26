@@ -1,0 +1,43 @@
+/* Portrait block: a person with a round photo. Photo above the text on phones, beside it from md up. */
+
+.portrait-block {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 1.5rem;
+	margin-bottom: var(--block-spacing, 3rem);
+	text-align: center;
+}
+
+@media (min-width: 768px) {
+	.portrait-block {
+		flex-direction: row;
+		align-items: center;
+		text-align: start;
+	}
+}
+
+.portrait-block__photo {
+	flex: none;
+	width: 10rem;
+	height: 10rem;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.portrait-block__name {
+	margin-bottom: 0.25rem;
+	font-size: 1.75rem;
+}
+
+.portrait-block__role {
+	margin-bottom: 0.75rem;
+	color: var(--bs-secondary-color);
+}
+
+/* The bio is plain text: keep the editor's line breaks. */
+.portrait-block__text {
+	max-width: 40rem;
+	margin-bottom: 0;
+	white-space: pre-line;
+}

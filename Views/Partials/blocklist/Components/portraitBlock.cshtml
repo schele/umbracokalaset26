@@ -1,0 +1,28 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<PortraitBlock>>
+
+@{
+	var person = Model.Content;
+	if (string.IsNullOrWhiteSpace(person.Name)) { return; }
+}
+
+@* A square crop around the photo's focal point, shown as a circle. Photo beside the text on wide
+   screens, above it on phones (wwwroot/css/portrait.css). *@
+<section class="portrait-block @(person.FullWidth ? "container-fluid" : "container")">
+	@if (person.Photo is not null)
+	{
+		<img class="portrait-block__photo" src="@person.Photo.GetCropUrl(width: 400, height: 400)" alt="@person.Name" loading="lazy" />
+	}
+	<div class="portrait-block__body">
+		<h2 class="portrait-block__name">@person.Name</h2>
+		@if (!string.IsNullOrWhiteSpace(person.Role))
+		{
+			<p class="portrait-block__role">@person.Role</p>
+		}
+		@if (!string.IsNullOrWhiteSpace(person.Text))
+		{
+			<p class="portrait-block__text">@person.Text</p>
+		}
+	</div>
+</section>

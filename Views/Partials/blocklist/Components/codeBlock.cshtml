@@ -1,0 +1,24 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<CodeBlock>>
+
+@{
+	var code = Model.Content.Code;
+	if (string.IsNullOrWhiteSpace(code)) { return; }
+
+	// Dark unless the block's "Light theme" toggle is on.
+	var dark = !Model.Content.LightTheme;
+	var fileName = Model.Content.FileName;
+	// Centred in a .container unless the block is set to full width.
+	var fullWidth = Model.Content.FullWidth;
+}
+
+@* Coloured on the server (Models/CodeHighlighter.cs): no script needed, and the code is always
+   shown as text. Long lines wrap, and a long snippet scrolls inside the block. *@
+<figure class="code-block code-block--@(dark ? "dark" : "light") @(fullWidth ? "code-block--full" : "container")">
+	@if (!string.IsNullOrWhiteSpace(fileName))
+	{
+		<figcaption class="code-block__file">@fileName</figcaption>
+	}
+	<div class="code-block__code">@CodeHighlighter.Highlight(code, Model.Content.Language, dark)</div>
+</figure>

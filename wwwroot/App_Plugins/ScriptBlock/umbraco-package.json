@@ -1,0 +1,15 @@
+{
+  "name": "UmbracoKalaset26 Script Block",
+  "extensions": [
+    {
+      "type": "blockEditorCustomView",
+      "alias": "UmbracoKalaset26.BlockView.Script",
+      "name": "Script Block card",
+      "element": "/App_Plugins/ScriptBlock/script-block-view.js",
+      "elementName": "kalaset-script-block-view",
+      "forContentTypeAlias": "scriptBlock",
+      "forBlockEditor": "block-list",
+      "weight": 0
+    }
+  ]
+}

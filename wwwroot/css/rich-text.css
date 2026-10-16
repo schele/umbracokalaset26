@@ -1,0 +1,92 @@
+/* Rich text: used on the page (.rich-text, Views/Partials/blocklist/Components/richTextBlock.cshtml)
+   AND inside the backoffice editor (.ProseMirror is the editing area; this file is the "Rich Text
+   Block" data type's stylesheet). Bootstrap doesn't reach the editor, so the values below repeat
+   Bootstrap 5.3's typography explicitly: both places then show the text the same way. */
+
+.rich-text {
+	margin-bottom: var(--block-spacing, 3rem);
+}
+
+:is(.rich-text, .ProseMirror) {
+	color: #212529;
+	font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+}
+
+:is(.rich-text, .ProseMirror) :is(h2, h3, h4) {
+	margin: 0 0 0.5rem;
+	color: inherit;
+	font-weight: 500;
+	line-height: 1.2;
+}
+
+:is(.rich-text, .ProseMirror) h2 { font-size: 2rem; }
+:is(.rich-text, .ProseMirror) h3 { font-size: 1.75rem; }
+:is(.rich-text, .ProseMirror) h4 { font-size: 1.5rem; }
+
+/* A heading that follows text gets room above it. */
+:is(.rich-text, .ProseMirror) > * + :is(h2, h3, h4) {
+	margin-top: 1.5rem;
+}
+
+:is(.rich-text, .ProseMirror) :is(p, ul, ol, blockquote) {
+	margin: 0 0 1rem;
+}
+
+:is(.rich-text, .ProseMirror) :is(ul, ol) {
+	padding-left: 2rem;
+}
+
+:is(.rich-text, .ProseMirror) li > p {
+	margin: 0;
+}
+
+:is(.rich-text, .ProseMirror) a {
+	color: #0d6efd;
+	text-decoration: underline;
+}
+
+:is(.rich-text, .ProseMirror) a:hover {
+	color: #0a58ca;
+}
+
+:is(.rich-text, .ProseMirror) blockquote {
+	padding-left: 1rem;
+	border-left: 0.25rem solid #dee2e6;
+	color: #6c757d;
+	font-size: 1.125rem;
+}
+
+:is(.rich-text, .ProseMirror) hr {
+	margin: 1rem 0;
+	border: 0;
+	border-top: 1px solid #212529;
+	opacity: 0.25;
+}
+
+/* Images from the media picker: never wider than the text, with an optional caption (figure). */
+:is(.rich-text, .ProseMirror) img {
+	max-width: 100%;
+	height: auto;
+	border-radius: 0.5rem;
+}
+
+:is(.rich-text, .ProseMirror) figure {
+	margin: 0 0 1rem;
+}
+
+:is(.rich-text, .ProseMirror) figure > p {
+	margin: 0;
+}
+
+:is(.rich-text, .ProseMirror) figcaption {
+	margin-top: 0.5rem;
+	color: #6c757d;
+	font-size: 0.875rem;
+}
+
+:is(.rich-text, .ProseMirror) > :last-child {
+	margin-bottom: 0;
+}

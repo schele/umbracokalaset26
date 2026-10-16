@@ -1,0 +1,91 @@
+/* Code block: Visual Studio colours from ColorCode (Models/CodeHighlighter.cs). The colours come
+   inline from the server; this file adds the window, the font and tab width. Long lines wrap (no
+   sideways scrolling), and a long snippet scrolls vertically inside the block. Centred: a rounded
+   window; full width (--full): square, edge to edge. */
+
+.code-block {
+	margin-bottom: var(--block-spacing, 3rem);
+	--code-bg: #1e1e1e;
+	--code-fg: #dadada;
+	--code-file-bg: #2d2d2d;
+	--code-file-fg: #cccccc;
+	--code-border: #1e1e1e;
+	--code-max-height: 18rem;
+	--code-line-number: #858585;
+	--code-gutter: 3.5ch;
+}
+
+.code-block--light {
+	--code-bg: #ffffff;
+	--code-fg: #000000;
+	--code-file-bg: #f3f3f3;
+	--code-file-fg: #333333;
+	--code-border: #d0d7de;
+	--code-line-number: #237893;
+}
+
+.code-block__file {
+	margin: 0;
+	padding: 0.5rem 1.25rem;
+	border: 1px solid var(--code-border);
+	border-bottom: 0;
+	border-radius: 0.5rem 0.5rem 0 0;
+	background: var(--code-file-bg);
+	color: var(--code-file-fg);
+	font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+	font-size: 0.8125rem;
+}
+
+.code-block__code {
+	max-height: var(--code-max-height);
+	overflow-y: auto;
+	border: 1px solid var(--code-border);
+	border-radius: 0.5rem;
+	background: var(--code-bg);
+	color: var(--code-fg);
+}
+
+/* ColorCode wraps the <pre> in a div with the theme's colours; plain text is a bare <pre>. */
+.code-block__code pre {
+	margin: 0;
+	padding: 1rem 1.25rem 1rem 0;
+	overflow: visible;
+	counter-reset: line;
+	white-space: pre-wrap;
+	overflow-wrap: anywhere;
+	tab-size: 4;
+	color: inherit;
+	font-family: "Cascadia Code", Consolas, "Courier New", monospace;
+	font-size: 0.875rem;
+	line-height: 1.5;
+}
+
+/* One per line (Models/CodeHighlighter.cs), numbered like the editor's gutter. A wrapped line
+   continues after the number, not under it; the numbers aren't part of a copied selection. */
+.code-line {
+	display: block;
+	position: relative;
+	min-height: 1.5em;
+	padding-left: calc(var(--code-gutter) + 1.25rem);
+	counter-increment: line;
+}
+
+.code-line::before {
+	content: counter(line);
+	position: absolute;
+	left: 0;
+	width: var(--code-gutter);
+	color: var(--code-line-number);
+	text-align: right;
+	user-select: none;
+}
+
+.code-block__file + .code-block__code {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.code-block--full :is(.code-block__file, .code-block__code) {
+	border-inline: 0;
+	border-radius: 0;
+}

@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ColorCode.HTML" />
+    <PackageReference Include="Esatto.Umbraco.Backoffice.AICosts" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.BlockPreview" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.CustomEditors" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.DictionaryFilterValues" />

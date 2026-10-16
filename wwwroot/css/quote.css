@@ -1,0 +1,47 @@
+/* Quote block: a large, centred quote. The quotation marks are added here, not typed by editors. */
+
+.quote-block {
+	max-width: 50rem;
+	margin-bottom: var(--block-spacing, 3rem);
+	text-align: center;
+}
+
+.quote-block__quote {
+	position: relative;
+	margin: 0 0 1rem;
+	padding-top: 3.5rem;
+}
+
+/* A large opening quotation mark above the text, inside the block (so a preview frame doesn't clip it). */
+.quote-block__quote::before {
+	content: "\201C";
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	color: var(--bs-primary);
+	font-family: Georgia, "Times New Roman", serif;
+	font-size: 6rem;
+	line-height: 1;
+}
+
+.quote-block__quote p {
+	margin: 0;
+	font-size: 1.75rem;
+	font-weight: 300;
+	line-height: 1.4;
+	white-space: pre-line;
+}
+
+.quote-block__author {
+	color: var(--bs-body-color);
+}
+
+.quote-block__role {
+	color: var(--bs-secondary-color);
+}
+
+/* Full width: the quote may use the whole width instead of a comfortable reading measure. */
+.quote-block--full {
+	max-width: none;
+}

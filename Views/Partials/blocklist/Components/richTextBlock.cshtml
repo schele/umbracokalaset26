@@ -1,0 +1,13 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<RichTextBlock>>
+
+@{
+	var text = Model.Content.Text;
+	if (string.IsNullOrWhiteSpace(text?.ToHtmlString())) { return; }
+}
+
+@* wwwroot/css/rich-text.css styles this AND the rich text editor (its stylesheet in the
+   "Rich Text Block" data type), so the editor shows the text as the page does. *@
+@* Full width keeps a small side gutter (container-fluid) so the text never touches the screen edge. *@
+<div class="rich-text @(Model.Content.FullWidth ? "container-fluid" : "container")">@text</div>

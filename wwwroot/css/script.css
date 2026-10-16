@@ -1,0 +1,4 @@
+/* Script block: an editor's HTML/JS snippet; only the spacing between blocks is ours. */
+.script-block {
+	margin-bottom: var(--block-spacing, 3rem);
+}

@@ -1,0 +1,35 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<QuoteBlock>>
+
+@{
+	var quote = Model.Content;
+	if (string.IsNullOrWhiteSpace(quote.Quote)) { return; }
+
+	var hasAuthor = !string.IsNullOrWhiteSpace(quote.Author);
+	var hasRole = !string.IsNullOrWhiteSpace(quote.Role);
+}
+
+@* The quotation marks come from wwwroot/css/quote.css, so editors type the quote without them. *@
+<figure class="quote-block @(quote.FullWidth ? "quote-block--full container-fluid" : "container")">
+	<blockquote class="quote-block__quote">
+		<p>@quote.Quote</p>
+	</blockquote>
+	@if (hasAuthor || hasRole)
+	{
+		<figcaption class="quote-block__author">
+			@if (hasAuthor)
+			{
+				<strong>@quote.Author</strong>
+			}
+			@if (hasAuthor && hasRole)
+			{
+				@:,
+			}
+			@if (hasRole)
+			{
+				<span class="quote-block__role">@quote.Role</span>
+			}
+		</figcaption>
+	}
+</figure>

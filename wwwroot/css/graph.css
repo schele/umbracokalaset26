@@ -1,0 +1,141 @@
+/* Graph block: charts drawn as SVG on the server (Models/Charts/SvgChart.cs). Categorical colours in a
+   fixed order (dataviz reference palette, validated on white); "Other" is neutral, never a hue of its
+   own. Seven slots: the eighth (red) is reserved for status. */
+
+.graph-block {
+	margin-bottom: var(--block-spacing, 3rem);
+	--graph-1: #2a78d6;
+	--graph-2: #eb6834;
+	--graph-3: #1baf7a;
+	--graph-4: #eda100;
+	--graph-5: #e87ba4;
+	--graph-6: #008300;
+	--graph-7: #6250d6;
+	--graph-other: #a3a29e;
+	--graph-grid: #e9ecef;
+	--graph-axis: #6c757d;
+	--graph-surface: #fff;
+}
+
+.graph-block__title {
+	margin-bottom: 0.75rem;
+	font-size: 1.25rem;
+	font-weight: 500;
+}
+
+.graph-svg {
+	display: block;
+	width: 100%;
+	height: auto;
+	font-family: inherit;
+}
+
+.graph-grid {
+	stroke: var(--graph-grid);
+	stroke-width: 1;
+}
+
+.graph-baseline {
+	stroke: var(--graph-axis);
+	stroke-width: 1;
+}
+
+.graph-axis {
+	fill: var(--graph-axis);
+	font-size: 11px;
+	font-variant-numeric: tabular-nums;
+}
+
+.graph-total {
+	fill: currentColor;
+	font-size: 22px;
+	font-weight: 600;
+}
+
+/* Fills (columns, areas, slices, legend swatches) and strokes (lines). */
+.graph-1 { fill: var(--graph-1); background: var(--graph-1); }
+.graph-2 { fill: var(--graph-2); background: var(--graph-2); }
+.graph-3 { fill: var(--graph-3); background: var(--graph-3); }
+.graph-4 { fill: var(--graph-4); background: var(--graph-4); }
+.graph-5 { fill: var(--graph-5); background: var(--graph-5); }
+.graph-6 { fill: var(--graph-6); background: var(--graph-6); }
+.graph-7 { fill: var(--graph-7); background: var(--graph-7); }
+.graph-other { fill: var(--graph-other); background: var(--graph-other); }
+.graph-1-stroke { stroke: var(--graph-1); }
+.graph-2-stroke { stroke: var(--graph-2); }
+.graph-3-stroke { stroke: var(--graph-3); }
+.graph-4-stroke { stroke: var(--graph-4); }
+.graph-5-stroke { stroke: var(--graph-5); }
+.graph-6-stroke { stroke: var(--graph-6); }
+.graph-7-stroke { stroke: var(--graph-7); }
+.graph-other-stroke { stroke: var(--graph-other); }
+
+.graph-line {
+	fill: none;
+	stroke-width: 2;
+	stroke-linejoin: round;
+	stroke-linecap: round;
+}
+
+/* Stacked areas: a 2px surface line separates the layers. */
+.graph-area {
+	stroke: var(--graph-surface);
+	stroke-width: 2;
+}
+
+.graph-area + .graph-line {
+	display: none;
+}
+
+/* Donut slices: a 2px surface gap between them. */
+.graph-slice {
+	stroke: var(--graph-surface);
+	stroke-width: 2;
+}
+
+.graph-hit {
+	fill: transparent;
+}
+
+.graph-hit:hover {
+	fill: rgb(0 0 0 / 15%);
+}
+
+.graph-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem 1.25rem;
+	margin: 0 0 0.5rem;
+	padding: 0;
+	list-style: none;
+	color: var(--graph-axis);
+	font-size: 0.875rem;
+}
+
+.graph-legend li {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.graph-swatch {
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+}
+
+.graph-block__note {
+	margin: 0.5rem 0 0;
+	color: var(--graph-axis);
+	font-size: 0.875rem;
+}
+
+.graph-data {
+	margin-top: 0.75rem;
+	font-size: 0.875rem;
+}
+
+.graph-data summary {
+	color: var(--graph-axis);
+	cursor: pointer;
+}

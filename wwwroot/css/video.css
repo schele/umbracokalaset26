@@ -2,7 +2,7 @@
    Centred in a .container by default; --full runs edge to edge, --band fills the sides with a background colour. */
 
 .video-block {
-	margin-bottom: 2rem;
+	margin-bottom: var(--block-spacing, 3rem);
 }
 
 /* Only the vertical margin: .container centres itself with margin-inline: auto. */

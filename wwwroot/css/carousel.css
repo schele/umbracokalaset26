@@ -1,7 +1,8 @@
 /* Start page carousel, based on https://getbootstrap.com/docs/5.3/examples/carousel/ */
 
 .start-carousel {
-	margin-bottom: 4rem;
+	/* The same gap after every block (carousel, video, code, rich text); override --block-spacing on :root. */
+	margin-bottom: var(--block-spacing, 3rem);
 }
 
 /* Since positioning the image, we need to help out the caption */
