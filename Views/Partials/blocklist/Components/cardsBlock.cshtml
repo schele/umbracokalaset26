@@ -1,0 +1,54 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<CardsBlock>>
+
+@{
+	var cards = Model.Content.Cards?
+		.Select(item => item.Content)
+		.OfType<CardItem>()
+		.Where(card => !string.IsNullOrWhiteSpace(card.Title))
+		.ToList() ?? [];
+	if (cards.Count == 0) { return; }
+
+	// Bootstrap's row-cols: one card per row on phones, two on tablets, the chosen number from lg up.
+	var columns = Model.Content.Columns is "2" or "4" ? Model.Content.Columns : "3";
+}
+
+<section class="cards-block @(Model.Content.FullWidth ? "container-fluid" : "container")">
+	@if (!string.IsNullOrWhiteSpace(Model.Content.Heading))
+	{
+		<h2 class="cards-block__heading">@Model.Content.Heading</h2>
+	}
+	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-@columns g-4">
+		@foreach (var card in cards)
+		{
+			var url = card.Link?.Url;
+			<div class="col">
+				<article class="card h-100 cards-block__card">
+					@if (card.Image is not null)
+					{
+						<img class="card-img-top cards-block__image" src="@card.Image.GetCropUrl(width: 800, height: 500)" alt="" loading="lazy" />
+					}
+					<div class="card-body">
+						<h3 class="card-title h5">
+							@if (string.IsNullOrWhiteSpace(url))
+							{
+								@card.Title
+							}
+							else
+							{
+								@* stretched-link makes the whole card the link's click area. *@
+								<a class="stretched-link" href="@url" target="@card.Link!.Target"
+								   rel="@(card.Link.Target == "_blank" ? "noopener" : null)">@card.Title</a>
+							}
+						</h3>
+						@if (!string.IsNullOrWhiteSpace(card.Text))
+						{
+							<p class="card-text">@card.Text</p>
+						}
+					</div>
+				</article>
+			</div>
+		}
+	</div>
+</section>

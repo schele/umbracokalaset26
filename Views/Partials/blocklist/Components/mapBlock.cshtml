@@ -1,0 +1,38 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<MapBlock>>
+
+@{
+	var address = Model.Content.Address?.Trim();
+	if (string.IsNullOrEmpty(address)) { return; }
+
+	var fullWidth = Model.Content.FullWidth;
+	// The page being rendered; none in the backoffice preview, which shows the address instead of loading
+	// Google Maps on every edit (inside the preview's sandboxed frame it may not load anyway).
+	var published = UmbracoContext?.PublishedRequest?.PublishedContent is not null;
+}
+
+@* loading="lazy": the browser fetches the map only when the visitor scrolls near it, so a page whose map
+   is never reached never contacts Google. *@
+<section class="map-block @(fullWidth ? "map-block--full" : "container")">
+	@if (!string.IsNullOrWhiteSpace(Model.Content.Heading))
+	{
+		<h2 class="map-block__heading @(fullWidth ? "container" : null)">@Model.Content.Heading</h2>
+	}
+	<div class="map-block__frame">
+		@if (published)
+		{
+			<iframe src="@MapLinks.Embed(address)" title="Map: @address" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+		}
+		else
+		{
+			<div class="map-block__placeholder">
+				<p class="map-block__address">@address</p>
+				<p class="map-block__notice">The map loads on the published page.</p>
+			</div>
+		}
+	</div>
+	<p class="map-block__open @(fullWidth ? "container" : null)">
+		<a href="@MapLinks.Open(address)" target="_blank" rel="noopener">Open @address in Google Maps</a>
+	</p>
+</section>

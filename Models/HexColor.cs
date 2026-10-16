@@ -31,7 +31,15 @@ public static partial class HexColor
     /// Whether light text reads better than dark text on this <c>#rrggbb</c> color
     /// (WCAG relative luminance below the midpoint).
     /// </summary>
-    public static bool IsDark(string normalizedHex)
+    public static bool IsDark(string normalizedHex) => Luminance(normalizedHex) < 0.179;
+
+    /// <summary>
+    /// Whether white text meets WCAG AA (4.5:1) on this <c>#rrggbb</c> colour. For brand colours such as
+    /// Bootstrap's blue, which sit just above <see cref="IsDark"/>'s midpoint but are designed for white text.
+    /// </summary>
+    public static bool PrefersLightText(string normalizedHex) => 1.05 / (Luminance(normalizedHex) + 0.05) >= 4.5;
+
+    private static double Luminance(string normalizedHex)
     {
         double Channel(int start)
         {
@@ -39,8 +47,7 @@ public static partial class HexColor
             return c <= 0.03928 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
         }
 
-        double luminance = 0.2126 * Channel(1) + 0.7152 * Channel(3) + 0.0722 * Channel(5);
-        return luminance < 0.179;
+        return 0.2126 * Channel(1) + 0.7152 * Channel(3) + 0.0722 * Channel(5);
     }
 
     [GeneratedRegex("^#?(?<digits>[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$")]

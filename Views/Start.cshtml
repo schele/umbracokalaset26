@@ -1,10 +1,37 @@
-﻿@using Umbraco.Cms.Web.Common.PublishedModels;
+﻿@using System.Globalization
+@using UmbracoKalaset26.Models
 @inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Start>
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels;
 @{
 	Layout = "root.cshtml";
+
+	// Esatto CustomEditors: the Encrypted Textbox is decrypted on read (plain text from here on, so it's
+	// visible to everyone who can see the page); the Date Range is JSON { from, to } (Models/DateRangeValue.cs).
+	var secret = Model.Value<string>("encryptedTextbox");
+	var range = DateRangeValue.Parse(Model.Value("dateRange"));
+	var hasSecret = !string.IsNullOrWhiteSpace(secret);
+}
+
+@if (hasSecret || !range.IsEmpty)
+{
+	<section class="container start-details">
+		<dl class="start-details__list">
+			@if (hasSecret)
+			{
+				<div class="start-details__item">
+					<dt>Encrypted Textbox</dt>
+					<dd>@secret</dd>
+				</div>
+			}
+			@if (!range.IsEmpty)
+			{
+				<div class="start-details__item">
+					<dt>Date Range</dt>
+					<dd>@range.Format(CultureInfo.CurrentCulture)</dd>
+				</div>
+			}
+		</dl>
+	</section>
 }
 
 @await Html.GetBlockListHtmlAsync(Model.ContentArea)
-
-<h1>START</h1>

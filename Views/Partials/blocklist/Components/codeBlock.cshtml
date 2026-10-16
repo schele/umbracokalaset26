@@ -21,4 +21,10 @@
 		<figcaption class="code-block__file">@fileName</figcaption>
 	}
 	<div class="code-block__code">@CodeHighlighter.Highlight(code, Model.Content.Language, dark)</div>
+	@* Shown by wwwroot/js/code.js, which copies the lines' text (without the line numbers). *@
+	<button type="button" class="code-block__copy" hidden>
+		<svg class="code-block__copy-icon" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5" /><path d="M10.5 3.5v-.5A1.5 1.5 0 0 0 9 1.5H4A1.5 1.5 0 0 0 2.5 3v5A1.5 1.5 0 0 0 4 9.5h.5" /></svg>
+		<svg class="code-block__copied-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" /></svg>
+		<span class="code-block__copy-label" aria-live="polite">Copy</span>
+	</button>
 </figure>

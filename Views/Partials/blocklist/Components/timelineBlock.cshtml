@@ -1,0 +1,39 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<TimelineBlock>>
+
+@{
+	var steps = Model.Content.Steps?
+		.Select(item => item.Content)
+		.OfType<TimelineStep>()
+		.Where(step => !string.IsNullOrWhiteSpace(step.Title))
+		.ToList() ?? [];
+	if (steps.Count == 0) { return; }
+
+	// Labelled steps (dates, "Phase 1") show their labels; without any, the steps are numbered.
+	var numbered = steps.All(step => string.IsNullOrWhiteSpace(step.Label));
+}
+
+@* A vertical line with a marker per step (wwwroot/css/timeline.css). *@
+<section class="timeline-block @(Model.Content.FullWidth ? "container-fluid" : "container")">
+	@if (!string.IsNullOrWhiteSpace(Model.Content.Heading))
+	{
+		<h2 class="timeline-block__heading">@Model.Content.Heading</h2>
+	}
+	<ol class="timeline-block__list @(numbered ? "timeline-block__list--numbered" : null)">
+		@foreach (var step in steps)
+		{
+			<li class="timeline-block__step">
+				@if (!string.IsNullOrWhiteSpace(step.Label))
+				{
+					<p class="timeline-block__label">@step.Label</p>
+				}
+				<h3 class="timeline-block__title">@step.Title</h3>
+				@if (!string.IsNullOrWhiteSpace(step.Text))
+				{
+					<p class="timeline-block__text">@step.Text</p>
+				}
+			</li>
+		}
+	</ol>
+</section>

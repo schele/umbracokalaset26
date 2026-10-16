@@ -1,0 +1,30 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<StatsBlock>>
+
+@{
+	var stats = Model.Content.Stats?
+		.Select(item => item.Content)
+		.OfType<StatItem>()
+		.Where(stat => !string.IsNullOrWhiteSpace(stat.Value))
+		.ToList() ?? [];
+	if (stats.Count == 0) { return; }
+}
+
+@* The numbers in a row that wraps: two per row on phones, all of them side by side from md up. *@
+<section class="stats-block @(Model.Content.FullWidth ? "container-fluid" : "container")">
+	@if (!string.IsNullOrWhiteSpace(Model.Content.Heading))
+	{
+		<h2 class="stats-block__heading">@Model.Content.Heading</h2>
+	}
+	<dl class="stats-block__list row row-cols-2 row-cols-md-@stats.Count g-4">
+		@foreach (var stat in stats)
+		{
+			<div class="col stats-block__item">
+				@* Value first visually, but the label is the term it describes. *@
+				<dt class="stats-block__label">@stat.Label</dt>
+				<dd class="stats-block__value">@stat.Value</dd>
+			</div>
+		}
+	</dl>
+</section>

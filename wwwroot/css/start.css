@@ -1,0 +1,30 @@
+/* Start page: the page's own properties (Encrypted Textbox, Date Range) above the blocks. */
+.start-details {
+	margin-block: 2rem var(--block-spacing, 3rem);
+}
+
+.start-details__list {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+	gap: 1rem;
+	margin: 0;
+}
+
+.start-details__item {
+	padding: 1rem 1.25rem;
+	border: 1px solid var(--bs-border-color, #dee2e6);
+	border-radius: 0.5rem;
+}
+
+.start-details__item dt {
+	margin-bottom: 0.25rem;
+	color: var(--bs-secondary-color, #6c757d);
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+
+.start-details__item dd {
+	margin: 0;
+	font-size: 1.125rem;
+	overflow-wrap: anywhere;
+}

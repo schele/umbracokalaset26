@@ -1,0 +1,49 @@
+/* Downloads block: one row per file, a type badge, the name and its type and size. */
+
+.downloads-block {
+	margin-bottom: var(--block-spacing, 3rem);
+}
+
+.downloads-block__heading {
+	margin-bottom: 1.25rem;
+}
+
+.downloads-block__item {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding-block: 0.875rem;
+}
+
+.downloads-block__type {
+	display: grid;
+	place-items: center;
+	flex: none;
+	width: 3rem;
+	height: 3rem;
+	border-radius: 0.375rem;
+	background: #e7f1ff;
+	color: #0a58ca;
+	font-size: 0.6875rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+}
+
+.downloads-block__name {
+	flex: 1;
+	min-width: 0;
+	color: inherit;
+	font-weight: 500;
+	text-decoration: none;
+	overflow-wrap: anywhere;
+}
+
+.downloads-block__item:hover .downloads-block__name {
+	text-decoration: underline;
+}
+
+.downloads-block__meta {
+	flex: none;
+	color: var(--bs-secondary-color);
+	font-size: 0.875rem;
+}

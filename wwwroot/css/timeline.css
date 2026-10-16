@@ -1,0 +1,80 @@
+/* Timeline block: a vertical line with a marker per step; numbered markers when no step has a label. */
+
+.timeline-block {
+	margin-bottom: var(--block-spacing, 3rem);
+}
+
+.timeline-block__heading {
+	margin-bottom: 1.5rem;
+}
+
+.timeline-block__list {
+	--marker: 1.75rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	counter-reset: step;
+}
+
+.timeline-block__step {
+	position: relative;
+	padding: 0 0 1.75rem calc(var(--marker) + 1rem);
+	counter-increment: step;
+}
+
+/* The line, from this marker to the next. */
+.timeline-block__step:not(:last-child)::after {
+	content: "";
+	position: absolute;
+	top: var(--marker);
+	bottom: 0;
+	left: calc(var(--marker) / 2 - 1px);
+	width: 2px;
+	background: #dee2e6;
+}
+
+.timeline-block__step::before {
+	content: "";
+	position: absolute;
+	top: 0.25rem;
+	left: calc(var(--marker) / 2 - 0.4375rem);
+	width: 0.875rem;
+	height: 0.875rem;
+	border: 3px solid #0d6efd;
+	border-radius: 50%;
+	background: #fff;
+}
+
+.timeline-block__list--numbered .timeline-block__step::before {
+	content: counter(step);
+	top: 0;
+	left: 0;
+	display: grid;
+	place-items: center;
+	width: var(--marker);
+	height: var(--marker);
+	border: 0;
+	background: #0d6efd;
+	color: #fff;
+	font-size: 0.875rem;
+	font-weight: 700;
+}
+
+.timeline-block__label {
+	margin-bottom: 0.125rem;
+	color: #0d6efd;
+	font-size: 0.875rem;
+	font-weight: 600;
+}
+
+.timeline-block__title {
+	margin-bottom: 0.25rem;
+	font-size: 1.125rem;
+	line-height: 1.75rem;
+}
+
+.timeline-block__text {
+	margin: 0;
+	color: var(--bs-secondary-color);
+	white-space: pre-line;
+}

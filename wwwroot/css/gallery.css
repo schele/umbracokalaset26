@@ -1,0 +1,122 @@
+/* Gallery block: square thumbnails in a grid, and the lightbox (wwwroot/js/gallery.js) that shows one
+   image at a time over the page. */
+
+.gallery-block {
+	margin-bottom: var(--block-spacing, 3rem);
+}
+
+.gallery-block__heading {
+	margin-bottom: 1.25rem;
+}
+
+.gallery-block__grid {
+	margin-bottom: 0;
+}
+
+.gallery-block__item {
+	display: block;
+	overflow: hidden;
+	border-radius: 0.375rem;
+}
+
+.gallery-block__item img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1;
+	object-fit: cover;
+	transition: transform 0.25s ease;
+}
+
+.gallery-block__item:hover img,
+.gallery-block__item:focus-visible img {
+	transform: scale(1.04);
+}
+
+.gallery-block__item:focus-visible {
+	outline: 2px solid #0d6efd;
+	outline-offset: 2px;
+}
+
+/* Lightbox */
+.gallery-lightbox {
+	width: 100vw;
+	max-width: none;
+	height: 100vh;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: rgb(0 0 0 / 92%);
+	color: #fff;
+}
+
+.gallery-lightbox::backdrop {
+	background: transparent;
+}
+
+.gallery-lightbox__figure {
+	display: grid;
+	place-items: center;
+	height: 100%;
+	margin: 0;
+	padding: 3.5rem 4rem;
+}
+
+.gallery-lightbox__figure img {
+	max-width: 100%;
+	max-height: calc(100vh - 7rem);
+	object-fit: contain;
+}
+
+.gallery-lightbox__caption {
+	position: absolute;
+	inset: auto 0 1rem;
+	font-size: 0.875rem;
+	text-align: center;
+	opacity: 0.8;
+}
+
+.gallery-lightbox button {
+	position: absolute;
+	display: grid;
+	place-items: center;
+	width: 3rem;
+	height: 3rem;
+	border: 0;
+	border-radius: 50%;
+	background: rgb(255 255 255 / 12%);
+	color: #fff;
+	font-size: 1.5rem;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.gallery-lightbox button:hover,
+.gallery-lightbox button:focus-visible {
+	background: rgb(255 255 255 / 25%);
+}
+
+.gallery-lightbox__close {
+	top: 0.75rem;
+	right: 0.75rem;
+}
+
+.gallery-lightbox__prev,
+.gallery-lightbox__next {
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.gallery-lightbox__prev {
+	left: 0.75rem;
+}
+
+.gallery-lightbox__next {
+	right: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.gallery-block__item img {
+		transition: none;
+	}
+}

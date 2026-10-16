@@ -1,0 +1,21 @@
+/* Image and text block: image beside rich text from md up, stacked (image first) on phones. */
+
+.image-text-block {
+	margin-bottom: var(--block-spacing, 3rem);
+}
+
+.image-text-block__image {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 0.5rem;
+}
+
+/* The rich text inside isn't a block of its own: no block spacing under it. */
+.image-text-block .rich-text {
+	margin-bottom: 0;
+}
+
+.image-text-block .rich-text > :last-child {
+	margin-bottom: 0;
+}

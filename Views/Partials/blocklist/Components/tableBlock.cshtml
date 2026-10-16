@@ -1,0 +1,47 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<TableBlock>>
+
+@{
+	// Pasted from a spreadsheet (tabs) or typed CSV: Models/BlockHelpers.cs (TableData).
+	var table = TableData.Parse(Model.Content.Data);
+	if (table.Rows.Count == 0) { return; }
+
+	var header = Model.Content.HeaderRow && table.Rows.Count > 1;
+	var body = header ? table.Rows.Skip(1) : table.Rows;
+	var numeric = Enumerable.Range(0, table.ColumnCount).Select(table.IsNumeric).ToList();
+}
+
+@* A wide table scrolls sideways inside the block (Bootstrap's .table-responsive), not the page. *@
+<figure class="table-block @(Model.Content.FullWidth ? "container-fluid" : "container")">
+	<div class="table-responsive">
+		<table class="table table-striped table-hover align-middle">
+			@if (!string.IsNullOrWhiteSpace(Model.Content.Caption))
+			{
+				<caption class="table-block__caption">@Model.Content.Caption</caption>
+			}
+			@if (header)
+			{
+				<thead>
+					<tr>
+						@for (var c = 0; c < table.ColumnCount; c++)
+						{
+							<th scope="col" class="@(numeric[c] ? "text-end" : null)">@table.Rows[0][c]</th>
+						}
+					</tr>
+				</thead>
+			}
+			<tbody>
+				@foreach (var row in body)
+				{
+					<tr>
+						@for (var c = 0; c < table.ColumnCount; c++)
+						{
+							<td class="@(numeric[c] ? "text-end" : null)">@row[c]</td>
+						}
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</figure>

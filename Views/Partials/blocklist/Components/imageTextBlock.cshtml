@@ -1,0 +1,20 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<ImageTextBlock>>
+
+@{
+	var block = Model.Content;
+	if (block.Image is null || string.IsNullOrWhiteSpace(block.Text?.ToHtmlString())) { return; }
+}
+
+@* Image and text side by side from md up (image first or last), stacked with the image on top on phones. *@
+<section class="image-text-block @(block.FullWidth ? "container-fluid" : "container")">
+	<div class="row g-4 g-lg-5 align-items-center">
+		<div class="col-md-6 @(block.ImageRight ? "order-md-last" : null)">
+			<img class="image-text-block__image" src="@block.Image.GetCropUrl(width: 1200)" alt="@block.Image.Name" loading="lazy" />
+		</div>
+		<div class="col-md-6">
+			<div class="rich-text">@block.Text</div>
+		</div>
+	</div>
+</section>

@@ -1,0 +1,53 @@
+@using System.Globalization
+@using Umbraco.Cms.Core.Models
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<LatestPagesBlock>>
+
+@{
+	var block = Model.Content;
+	var count = block.Count is > 0 and <= 12 ? block.Count : 3;
+	var latest = block.Parent?.Children()?
+		.OrderByDescending(item => item.CreateDate)
+		.Take(count)
+		.Select(item => new
+		{
+			item.Name,
+			Url = item.Url(),
+			item.CreateDate,
+			// The item's first picked image, whatever its property is called.
+			Image = item.Properties
+				.Select(p => p.GetValue())
+				.Select(v => v as MediaWithCrops ?? (v as IEnumerable<MediaWithCrops>)?.FirstOrDefault())
+				.FirstOrDefault(m => m is not null),
+		})
+		.ToList() ?? [];
+	if (latest.Count == 0) { return; }
+}
+
+@* Laid out like the Cards block (wwwroot/css/cards.css), filled in from the newest child pages. *@
+<section class="cards-block latest-pages-block @(block.FullWidth ? "container-fluid" : "container")">
+	@if (!string.IsNullOrWhiteSpace(block.Heading))
+	{
+		<h2 class="cards-block__heading">@block.Heading</h2>
+	}
+	<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+		@foreach (var item in latest)
+		{
+			<div class="col">
+				<article class="card h-100 cards-block__card">
+					@if (item.Image is not null)
+					{
+						<img class="card-img-top cards-block__image" src="@item.Image.GetCropUrl(width: 800, height: 500)" alt="" loading="lazy" />
+					}
+					<div class="card-body">
+						<p class="latest-pages-block__date">
+							<time datetime="@item.CreateDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)">@item.CreateDate.ToString("d MMMM yyyy", CultureInfo.CurrentCulture)</time>
+						</p>
+						<h3 class="card-title h5"><a class="stretched-link" href="@item.Url">@item.Name</a></h3>
+					</div>
+				</article>
+			</div>
+		}
+	</div>
+</section>

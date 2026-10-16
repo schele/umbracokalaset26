@@ -486,3 +486,10 @@ umbraco-package-schema.json
 
 # Media files
 /wwwroot/media/
+
+# Contact form emails written locally (appsettings.Development.json: SMTP pickup directory)
+/umbraco/Data/Mail/
+
+# uSync startup import trigger (usync.once is renamed to usync.stop after one import)
+/uSync/v18/usync.once
+/uSync/v18/usync.stop

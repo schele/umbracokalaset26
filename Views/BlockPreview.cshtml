@@ -15,12 +15,25 @@
     <link href="~/css/portrait.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/quote.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/css/graph.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/cta.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/cards.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/image-text.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/gallery.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/stats.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/timeline.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/table.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/downloads.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/map.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/form.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/summary.css" rel="stylesheet" asp-append-version="true" />
     @* video.js plays videos here too: inside the preview it hands the player to the backoffice (YouTube can't run in the sandbox). *@
     <script src="~/js/video.js" asp-append-version="true" defer></script>
+    <script src="~/js/code.js" asp-append-version="true" defer></script>
+    <script src="~/js/gallery.js" asp-append-version="true" defer></script>
     @* Backoffice preview only (this layout is never used on the site): text blocks get breathing room
        inside the preview frame. Image and code blocks (carousel, video, code) stay flush with its edges. *@
     <style>
-        body > :is(.rich-text, .accordion-block, .portrait-block, .quote-block, .graph-block) { padding-block: 1.5rem; }
+        body > :is(.rich-text, .accordion-block, .portrait-block, .quote-block, .graph-block, .cta-block, .cards-block, .image-text-block, .gallery-block, .stats-block, .timeline-block, .table-block, .downloads-block, .map-block, .form-block, .summary-block) { padding-block: 1.5rem; }
     </style>
 </head>
 <body>

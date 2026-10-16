@@ -1,0 +1,39 @@
+@using System.Globalization
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<DownloadsBlock>>
+
+@{
+	var files = Model.Content.Files?
+		.Select(file => new
+		{
+			file.Name,
+			Url = file.MediaUrl(),
+			// Umbraco fills these in on upload for files, images, videos, …
+			Extension = file.Value<string>("umbracoExtension")?.ToUpperInvariant(),
+			Bytes = file.Value<long>("umbracoBytes"),
+		})
+		.Where(file => !string.IsNullOrEmpty(file.Url))
+		.ToList() ?? [];
+	if (files.Count == 0) { return; }
+}
+
+<section class="downloads-block @(Model.Content.FullWidth ? "container-fluid" : "container")">
+	@if (!string.IsNullOrWhiteSpace(Model.Content.Heading))
+	{
+		<h2 class="downloads-block__heading">@Model.Content.Heading</h2>
+	}
+	<ul class="list-group downloads-block__list">
+		@foreach (var file in files)
+		{
+			<li class="list-group-item list-group-item-action downloads-block__item">
+				<span class="downloads-block__type" aria-hidden="true">@(file.Extension ?? "FILE")</span>
+				@* stretched-link: the whole row downloads; the type and size are read after the name. *@
+				<a class="stretched-link downloads-block__name" href="@file.Url" download>@file.Name</a>
+				<span class="downloads-block__meta">
+					@(file.Extension ?? "File")@(file.Bytes > 0 ? $", {FileSize.Format(file.Bytes, CultureInfo.CurrentCulture)}" : null)
+				</span>
+			</li>
+		}
+	</ul>
+</section>

@@ -1,0 +1,38 @@
+/* Contact form block: Bootstrap form controls, at most a comfortable reading width when centred. */
+
+.form-block {
+	margin-bottom: var(--block-spacing, 3rem);
+}
+
+.form-block:not(.container-fluid) > * {
+	max-width: 48rem;
+}
+
+.form-block__heading {
+	margin-bottom: 0.75rem;
+}
+
+.form-block__intro {
+	margin-bottom: 1.25rem;
+	color: var(--bs-secondary-color);
+	white-space: pre-line;
+}
+
+.form-block__thanks {
+	white-space: pre-line;
+}
+
+/* The honeypot: off-screen rather than display:none, which some bots skip. */
+.form-block__trap {
+	position: absolute;
+	left: -10000px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.form-block__preview-note {
+	margin-left: 0.75rem;
+	color: var(--bs-secondary-color);
+	font-size: 0.875rem;
+}

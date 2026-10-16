@@ -1,0 +1,75 @@
+@using System.Globalization
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<FormBlock>>
+
+@{
+	var form = Model.Content;
+	var id = $"form-{Model.ContentKey:N}";
+	// The page being rendered; there is none in the backoffice preview, where the form is shown but can't be sent.
+	var currentPage = UmbracoContext?.PublishedRequest?.PublishedContent;
+	var request = Context.Request;
+	// Set by Controllers/ContactFormController.cs when it redirects back here (same key). TempData is read
+	// once: a reload shows the form again.
+	var status = TempData[$"ContactForm:{Model.ContentKey:N}"] as string;
+	var thanks = string.IsNullOrWhiteSpace(form.SuccessMessage) ? "Thank you! We'll get back to you soon." : form.SuccessMessage;
+}
+
+<section class="form-block @(form.FullWidth ? "container-fluid" : "container")" id="@id">
+	@if (!string.IsNullOrWhiteSpace(form.Heading))
+	{
+		<h2 class="form-block__heading">@form.Heading</h2>
+	}
+	@if (status == "sent")
+	{
+		<div class="alert alert-success form-block__thanks" role="status">@thanks</div>
+	}
+	else
+	{
+		@if (!string.IsNullOrWhiteSpace(form.Intro))
+		{
+			<p class="form-block__intro">@form.Intro</p>
+		}
+		@if (status == "invalid")
+		{
+			<div class="alert alert-warning" role="alert">Please fill in your name, a valid email address and a message.</div>
+		}
+		else if (status == "unavailable")
+		{
+			<div class="alert alert-danger" role="alert">Sorry, the message couldn't be sent right now. Please try again later.</div>
+		}
+		<form class="form-block__form" method="post" action="/umbraco/surface/contactform/submit">
+			@Html.AntiForgeryToken()
+			<input type="hidden" name="pageKey" value="@currentPage?.Key" />
+			<input type="hidden" name="culture" value="@CultureInfo.CurrentCulture.Name" />
+			<input type="hidden" name="blockKey" value="@Model.ContentKey" />
+			<input type="hidden" name="returnUrl" value="@($"{request.PathBase}{request.Path}")" />
+			@* Honeypot: hidden from people (and screen readers), filled in by bots; such posts are dropped. *@
+			<div class="form-block__trap" aria-hidden="true">
+				<label for="@id-website">Website</label>
+				<input type="text" id="@id-website" name="website" tabindex="-1" autocomplete="off" />
+			</div>
+			<div class="row g-3">
+				<div class="col-md-6">
+					<label class="form-label" for="@id-name">Name</label>
+					<input class="form-control" type="text" id="@id-name" name="name" required maxlength="@ContactFormInput.MaxName" autocomplete="name" />
+				</div>
+				<div class="col-md-6">
+					<label class="form-label" for="@id-email">Email</label>
+					<input class="form-control" type="email" id="@id-email" name="email" required maxlength="@ContactFormInput.MaxEmail" autocomplete="email" />
+				</div>
+				<div class="col-12">
+					<label class="form-label" for="@id-message">Message</label>
+					<textarea class="form-control" id="@id-message" name="message" rows="5" required maxlength="@ContactFormInput.MaxMessage"></textarea>
+				</div>
+				<div class="col-12">
+					<button class="btn btn-primary" type="submit" disabled="@(currentPage is null)">Send</button>
+					@if (currentPage is null)
+					{
+						<span class="form-block__preview-note">The form can be sent on the published page.</span>
+					}
+				</div>
+			</div>
+		</form>
+	}
+</section>

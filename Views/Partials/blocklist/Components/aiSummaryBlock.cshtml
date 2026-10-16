@@ -1,0 +1,30 @@
+@using System.Globalization
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<AiSummaryBlock>>
+@inject PageSummaryService Summaries
+
+@{
+	// The page being rendered; none in the backoffice preview, which shows a placeholder instead of
+	// calling the AI on every edit.
+	var currentPage = UmbracoContext?.PublishedRequest?.PublishedContent;
+	var summary = currentPage is null ? null : await Summaries.GetSummaryAsync(currentPage, CultureInfo.CurrentCulture);
+	if (currentPage is not null && summary is null) { return; }
+
+	var heading = string.IsNullOrWhiteSpace(Model.Content.Heading) ? "Summary" : Model.Content.Heading;
+}
+
+<aside class="summary-block @(Model.Content.FullWidth ? "container-fluid" : "container")">
+	<div class="summary-block__inner">
+		<h2 class="summary-block__heading">@heading</h2>
+		@if (summary is null)
+		{
+			<p class="summary-block__placeholder">A short summary of this page, written by AI, appears here on the published page.</p>
+		}
+		else
+		{
+			<p class="summary-block__text">@summary</p>
+			<p class="summary-block__note">Written by AI from this page's content.</p>
+		}
+	</div>
+</aside>

@@ -1,0 +1,36 @@
+/* Stats block: big numbers with a label under each, centred in a row. */
+
+.stats-block {
+	margin-bottom: var(--block-spacing, 3rem);
+	text-align: center;
+}
+
+.stats-block__heading {
+	margin-bottom: 1.5rem;
+}
+
+.stats-block__list {
+	margin-bottom: 0;
+}
+
+/* The value is the <dd> after its label (<dt>) in the markup, but shown above it. */
+.stats-block__item {
+	display: flex;
+	flex-direction: column-reverse;
+	justify-content: flex-end;
+}
+
+.stats-block__value {
+	margin: 0;
+	color: #0d6efd;
+	font-size: clamp(2rem, 1.5rem + 2vw, 3rem);
+	font-weight: 700;
+	line-height: 1.1;
+	font-variant-numeric: tabular-nums;
+}
+
+.stats-block__label {
+	margin-top: 0.375rem;
+	color: var(--bs-secondary-color);
+	font-weight: 400;
+}

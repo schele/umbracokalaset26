@@ -1,0 +1,48 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<CtaBlock>>
+
+@{
+	var cta = Model.Content;
+	if (string.IsNullOrWhiteSpace(cta.Heading)) { return; }
+
+	var links = cta.Links?.Where(l => !string.IsNullOrWhiteSpace(l.Url)).Take(2).ToList() ?? [];
+	// A background image gets a dark overlay, so its text is always light; otherwise white text wherever it
+	// meets WCAG AA contrast (Bootstrap's blue and green included), dark text on light colours.
+	var image = cta.BackgroundImage;
+	var background = HexColor.Normalize(cta.Background?.Color) ?? "#0d6efd";
+	var dark = image is not null || HexColor.PrefersLightText(background);
+	var style = image is null
+		? $"background-color: {background}"
+		: $"background-image: url('{image.GetCropUrl(width: 1920)}'); {image.GetFocalObjectPosition()?.Replace("object-position", "background-position")}";
+}
+
+<section class="cta-block @(cta.FullWidth ? "cta-block--full" : "container")">
+	<div class="cta-block__inner @(dark ? "cta-block--dark" : "cta-block--light") @(image is null ? null : "cta-block--image")" style="@style">
+		<div class="cta-block__content @(cta.FullWidth ? "container" : null)">
+			<h2 class="cta-block__heading">@cta.Heading</h2>
+			@if (!string.IsNullOrWhiteSpace(cta.Text))
+			{
+				<p class="cta-block__text">@cta.Text</p>
+			}
+			@if (links.Count > 0)
+			{
+				<div class="cta-block__buttons">
+					@for (var i = 0; i < links.Count; i++)
+					{
+						// The first button is the main one: solid; the second is an outline.
+						var button = (i == 0, dark) switch
+						{
+							(true, true) => "btn-light",
+							(true, false) => "btn-primary",
+							(false, true) => "btn-outline-light",
+							_ => "btn-outline-primary",
+						};
+						<a class="btn btn-lg @button" href="@links[i].Url" target="@links[i].Target"
+						   rel="@(links[i].Target == "_blank" ? "noopener" : null)">@links[i].Name</a>
+					}
+				</div>
+			}
+		</div>
+	</div>
+</section>

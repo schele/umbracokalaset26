@@ -1,0 +1,33 @@
+/* AI summary block: a quiet panel with an accent on the side, and a note that AI wrote it. */
+
+.summary-block {
+	margin-bottom: var(--block-spacing, 3rem);
+}
+
+.summary-block__inner {
+	padding: 1.25rem 1.5rem;
+	border-left: 4px solid #6250d6;
+	border-radius: 0.5rem;
+	background: #f4f2fd;
+}
+
+.summary-block__heading {
+	margin-bottom: 0.5rem;
+	font-size: 1rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	text-transform: uppercase;
+	color: #4b3bb0;
+}
+
+.summary-block__text {
+	margin-bottom: 0.5rem;
+	font-size: 1.125rem;
+}
+
+.summary-block__note,
+.summary-block__placeholder {
+	margin: 0;
+	color: var(--bs-secondary-color);
+	font-size: 0.8125rem;
+}

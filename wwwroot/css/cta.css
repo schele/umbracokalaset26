@@ -1,0 +1,63 @@
+/* Call to action block: heading, text and buttons on a colour (light or dark text by contrast) or on an
+   image under a dark overlay. Centred: a rounded panel; full width: a band edge to edge. */
+
+.cta-block {
+	margin-bottom: var(--block-spacing, 3rem);
+}
+
+.cta-block__inner {
+	position: relative;
+	padding: 3rem 1.5rem;
+	border-radius: 0.75rem;
+	background-position: center;
+	background-size: cover;
+	text-align: center;
+	overflow: hidden;
+}
+
+.cta-block--full .cta-block__inner {
+	padding-block: 4rem;
+	border-radius: 0;
+}
+
+/* The overlay keeps light text readable on any photo. */
+.cta-block--image::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgb(0 0 0 / 55%);
+}
+
+.cta-block__content {
+	position: relative;
+	max-width: 48rem;
+	margin-inline: auto;
+}
+
+.cta-block--dark {
+	color: #fff;
+}
+
+.cta-block--light {
+	color: #212529;
+}
+
+.cta-block__heading {
+	margin-bottom: 0.75rem;
+	font-size: clamp(1.5rem, 1.1rem + 1.5vw, 2.25rem);
+	font-weight: 700;
+}
+
+.cta-block__text {
+	margin-bottom: 1.5rem;
+	font-size: 1.125rem;
+	opacity: 0.9;
+	white-space: pre-line;
+}
+
+.cta-block__buttons {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.75rem;
+}

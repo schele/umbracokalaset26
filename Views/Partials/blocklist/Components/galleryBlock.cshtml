@@ -1,0 +1,29 @@
+@using Umbraco.Cms.Core.Models.Blocks
+@using UmbracoKalaset26.Models
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockListItem<GalleryBlock>>
+
+@{
+	var images = Model.Content.Images?.ToList() ?? [];
+	if (images.Count == 0) { return; }
+
+	var columns = Model.Content.Columns is "2" or "4" ? Model.Content.Columns : "3";
+}
+
+@* Square thumbnails cropped around each image's focal point. Each links to the full image, so it works
+   without script; wwwroot/js/gallery.js opens it in a lightbox (<dialog>) with previous/next instead. *@
+<section class="gallery-block @(Model.Content.FullWidth ? "container-fluid" : "container")">
+	@if (!string.IsNullOrWhiteSpace(Model.Content.Heading))
+	{
+		<h2 class="gallery-block__heading">@Model.Content.Heading</h2>
+	}
+	<ul class="gallery-block__grid row row-cols-2 row-cols-md-@columns g-2 g-md-3 list-unstyled">
+		@foreach (var image in images)
+		{
+			<li class="col">
+				<a class="gallery-block__item" href="@image.GetCropUrl(width: 2000)" data-gallery-image>
+					<img src="@image.GetCropUrl(width: 600, height: 600)" alt="@image.Name" loading="lazy" />
+				</a>
+			</li>
+		}
+	</ul>
+</section>
