@@ -14,7 +14,7 @@ namespace UmbracoKalaset26.Models;
 public static partial class CodeHighlighter
 {
     // Keys are the Language dropdown's values (uSync/v18/DataTypes/CodeBlockLanguage.config).
-    // ColorCode has no JSON mode; JavaScript colours it correctly.
+    // ColorCode has no JSON mode; JavaScript colours it correctly. C# goes to CSharpHighlighter instead.
     private static readonly Dictionary<string, ILanguage> LanguageMap = new(StringComparer.OrdinalIgnoreCase)
     {
         ["C#"] = ColorCode.Languages.CSharp,
@@ -42,6 +42,13 @@ public static partial class CodeHighlighter
         if (string.IsNullOrEmpty(code))
         {
             return HtmlString.Empty;
+        }
+
+        // C# is coloured from Roslyn's syntax tree, like Visual Studio: ColorCode only knows keywords.
+        if (string.Equals(language, "C#", StringComparison.OrdinalIgnoreCase))
+        {
+            string theme = dark ? "color:#DADADA;background-color:#1E1E1E;" : "color:#000000;background-color:#FFFFFF;";
+            return new HtmlString($"<div style=\"{theme}\"><pre>{NumberLines(CSharpHighlighter.ToHtml(code, dark))}</pre></div>");
         }
 
         if (language is null || !LanguageMap.TryGetValue(language, out ILanguage? colorCodeLanguage))
