@@ -12,6 +12,7 @@
     <PackageReference Include="Esatto.Umbraco.Backoffice.BlockPreview" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.CustomEditors" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.Redirects" />
+    <PackageReference Include="Esatto.Umbraco.Backoffice.ScheduledTasks" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.SharedPreviewLink" />
     <PackageReference Include="Esatto.Umbraco.Backoffice.TreeDragAndDrop" />
     <PackageReference Include="MessagePack" />

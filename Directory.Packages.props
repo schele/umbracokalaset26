@@ -15,6 +15,7 @@
     <PackageVersion Include="Esatto.Umbraco.Backoffice.BlockPreview" Version="1.0.2" />
     <PackageVersion Include="Esatto.Umbraco.Backoffice.CustomEditors" Version="1.1.6" />
     <PackageVersion Include="Esatto.Umbraco.Backoffice.Redirects" Version="1.0.3" />
+    <PackageVersion Include="Esatto.Umbraco.Backoffice.ScheduledTasks" Version="1.1.1" />
     <PackageVersion Include="Esatto.Umbraco.Backoffice.SharedPreviewLink" Version="1.0.7" />
     <PackageVersion Include="Esatto.Umbraco.Backoffice.TreeDragAndDrop" Version="1.0.0" />
     <!-- GHSA-qhrr-8q5h-9q3h: Umbraco 18.2.1 allows MessagePack 3.1.8, fixed in 3.1.9. Drop once Umbraco requires >= 3.1.9 (18.3.0 does). -->
