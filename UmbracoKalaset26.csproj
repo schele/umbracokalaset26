@@ -18,7 +18,10 @@
     <PackageReference Include="MessagePack" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
     <PackageReference Include="Umbraco.AI" />
+    <PackageReference Include="Umbraco.AI.Agent.Copilot" />
+    <PackageReference Include="Umbraco.AI.Agent.Copilot.Workspace" />
     <PackageReference Include="Umbraco.AI.Anthropic" />
+    <PackageReference Include="Umbraco.AI.Prompt" />
     <PackageReference Include="Umbraco.Cms" />
     <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice" />
     <PackageReference Include="uSync" />
